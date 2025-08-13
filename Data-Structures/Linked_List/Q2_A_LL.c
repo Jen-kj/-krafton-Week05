@@ -100,10 +100,42 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
+// Q2. 두 개의 단일 연결 리스트를 번갈아가며 병합
+// ll2의 노드들을 ll1의 각 노드 뒤에 번갈아 삽입
+// 삽입은 ll1의 빈 자리(노드 사이)가 있을 때만 수행
+// ll2가 먼저 소진되면 ll2는 빈 리스트가 됨
+// ll1이 먼저 끝나면 ll2의 남은 노드는 그대로 유지
+// 새 노드 생성 없이 기존 ll2의 노드를 잘라서 ll1에 연결
+// 반환값 없음 (void 함수)
 
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
-    /* add your code here */
+	// 1. 예외 처리(ll1 또는 ll2가 NULL인 경우, 둘 중 하나라도 빈 리스트인 경우)
+	if(!ll1 || !ll2) return;        
+	if(ll1->head == NULL || ll2->head == NULL) return;
+
+    // 2. 시작점 지정: ll1의 현재 위치(cur1)
+	ListNode *cur1 = ll1->head;
+	
+	
+    // 3. ll1에 남은 자리(cur1)와 ll2에서 꺼낼 노드(cur2)가 모두 있을 동안 반복
+	while (cur1 && ll2->head) {
+
+		//(1) ll2 맨 앞 노드(cur2) 꺼내기
+		ListNode *cur2 = ll2->head;
+		ll2->head = cur2->next;    // ll2의 head를 다음 노드로 옮김 (cur2는 ll2에서 분리됨)
+		ll2->size--;               // ll2의 크기 감소
+        
+		// (2) ll1의 현재 노드(cur1) 뒤에 cur2를 삽입하기
+		ListNode *next1 = cur1->next;   // cur1의 원래 다음 노드를 기억
+		cur2->next = next1;             // cur2 뒤에 원래 cur1 다음 노드를 연결
+		cur1->next = cur2;              // cur1 뒤에 cur2를 연결
+		ll1->size++;                    // ll1의 크기 증가
+
+		cur1 = next1;                   // 원래 있던 다음 노드로 이동
+	}
+
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

@@ -85,10 +85,43 @@ int main()
 }
 
 ////////////////////////////////////////////////////////////////////////
-
+// Q6. 연결 리스트(정수)에서 가장 큰 값을 가진 노드 하나를 맨 앞으로 옮기기
+// 리스트 전체를 최대 한 번만 순회(= 한 번의 루프로 해결)
+// -> 이중 포인터(** ) 사용 이유: head 자체를 바꿀 수도 있기 때문이에요(최댓값 노드를 맨 앞에 두면 head가 바뀜)
 int moveMaxToFront(ListNode **ptrHead)
 {
-    /* add your code here */
+	// 1. 예외 처리: 리스트 or 포인터 NULL -> 종료
+    if(!ptrHead || !*ptrHead) return 0;
+
+	//2. IF, 원소 1개 -> 종료
+	ListNode *head = *ptrHead;
+	if(!head->next) return 0;
+
+    // 3. 포인터 초기화
+	ListNode *cur = head, *prev = NULL; 
+	ListNode *maxNode = head, *maxPrev = NULL;
+	int maxVal = head->item;
+
+	// 4. 최댓값 노드 찾기
+	while(cur){
+		if(cur->item > maxVal) {
+			maxVal = cur->item;
+			maxNode = cur;
+			maxPrev = prev;
+		}
+		prev = cur;
+		cur = cur->next;
+	}
+
+	// 5. IF, 최댓값 노드가 이미 맨 앞에 있음 -> 종료
+	if(maxNode == head) return 0;
+
+	// 6. 링크 재배선(MaxNode 제일 앞에 두기)
+	maxPrev->next = maxNode->next;  //MaxPrev 다음 값 MaxNode 다음 값으로 변경 
+	maxNode->next = head; //MaxNode의 다음 값 head로
+	*ptrHead = maxNode; //head를 MaxNode로 변경
+
+	return 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

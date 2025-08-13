@@ -109,11 +109,30 @@ int main()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
+// Q4. 스택 사용해서 큐 순서 역순 만들기
+// 스택: 원소를 넣고/빼는 건 push / pop만 사용, 시작 시 비워둘 것
+// 큐: 원소를 넣고/빼는 건 enqueue / dequeue만 사용
+// 예: (1,2,3,4,5) → (5,4,3,2,1)
 void reverse(Queue *q)
 {
-/* add your code here */
+	if(!q) return;
+
+	Stack st;
+	st.ll.head = NULL;
+	st.ll.size = 0;
+
+	while(isEmptyQueue(q)){
+		int x = dequeue(q);
+		push(&st,q);
+	}
+
+	while(isEmptyStack(&st)) {
+		int x = pop(&st);
+		enqueue(q, x);
+
+	}
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -89,12 +89,37 @@ int main()
 	return 0;
 }
 
+// Q1. 이진트리를 큐로 BFS(레벨 순회)해서 “루트 → 그다음 레벨 → …” 순으로 값들을 출력(큐 사용)
+
+
 //////////////////////////////////////////////////////////////////////////////////
 
 void levelOrderTraversal(BSTNode* root)
 {
+	// 1. 예외 처리: NULL
+	if(!root) return;
 
-    /* add your code here */
+    // 2. 큐 초기화
+    QueueNode *head = NULL, *tail = NULL;
+
+	// 3. 큐 비우기
+	while(!isEmpty(head)) dequeue(&head, &tail);
+
+	// 4. 루트를 큐에 삽입 -> 루트부터 탐색 시작
+	enqueue(&head, &tail, root);
+
+	// 6. BFS 
+	while(!isEmpty(head)) {
+		BSTNode *cur = dequeue(&head, &tail);   // 앞에서 꺼냄(방문 시점)
+
+		printf("%d ", cur->item);       // 출력
+
+		if(cur->left != NULL) enqueue(&head, &tail, cur->left);     //왼쪽
+		if(cur->right != NULL) enqueue(&head, &tail, cur->right);   // 오른쪽
+
+
+	}
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////

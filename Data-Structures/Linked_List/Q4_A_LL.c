@@ -83,10 +83,58 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
+// Q4. 연결 리스트 내의 짝수 정수들을 모두 뒤로 이동시킴
+// 이동 후: 원래 리스트의 순서 유지(짝수끼리, 홀수끼리는 원래 순서 유지)
 
 void moveEvenItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+	// 1. 예외 처리: 리스트가 없거나, 노드 수 0~1이면 작업 불필요 -> 종료
+	if(!ll || !ll->head || !ll->head->next ) return;
+
+	// 2. 포인터 초기화(짝, 홀, 현재)
+	ListNode *evenhead = NULL, *eventail = NULL;   // 짝수
+	ListNode *oddhead = NULL, *oddtail = NULL;     // 홀수
+
+	ListNode *cur = ll->head;
+
+	 // 3. 원본 리스트 순회하며 짝수/홀수 체인으로 분리(순서 보존)
+	while(cur){
+		// 3-1. 다음 노드 백업 + 현재 노드 분리
+		ListNode *next = cur->next;
+		cur->next = NULL;
+
+		// 3-2. 짝수면 짝수 체인 뒤에 추가
+		if((cur->item & 1) == 0){
+			if(!evenhead){
+				evenhead = eventail = cur;
+			}
+			else{
+				eventail->next = cur;
+				eventail = cur;
+			}
+
+		 // 3-3. 홀수면 홀수 체인 뒤에 추가
+		}else{
+			if(!oddhead){
+				oddhead = oddtail = cur;
+			}
+			else{
+				oddtail->next = cur;
+				oddtail = cur;
+			}
+		}
+
+		// 3-4. 다음 원본 노드로 이동
+		cur = next;
+	}
+
+	// 4. 특수 케이스 처리(전부 홀수 or 전부 짝수)
+	if(!evenhead) {ll->head = oddhead; return;}
+	if(!oddhead) {ll->head = evenhead; return;}
+
+	// 5. 최종 연결(홀수 체인 뒤에 짝수 체인 연결) 및 head 갱신
+    oddtail->next = evenhead;     // 홀수들(원순서) 뒤에 짝수들(원순서)
+	ll->head = oddhead;           // 새 머리는 홀수 체인의 머리
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

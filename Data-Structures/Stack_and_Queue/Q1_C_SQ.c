@@ -113,21 +113,46 @@ int main()
 
 
 //////////////////////////////////////////////////////////////////////////////////
+// Q1.  앞에서부터 차례대로 이용해서 연결리스트 기반 '큐'를 같은 순서로 생성
+// 시작할 때 큐가 비어있지 않으면 먼저 비움(초기화)
 
 void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 {
-	/* add your code here */
+	// 1. 예외처리: 빈리스트 or 빈큐
+	if (!ll || !q) return;
+
+	// 2. 큐 초기화: 시작 전 큐 비우기
+	removeAllItemsFromQueue(q);
+
+	// 3. 시작 노드: head
+	ListNode *cur = ll->head;
+
+	// 4. 원본 리스트 순회 시작
+	while (cur != NULL) {
+		enqueue(q, cur->item);   // cur->item(현재 노드 값)을 큐의 뒤에 붙임
+		cur = cur->next;
+	}
+
 }
 
 void removeOddValues(Queue *q)
 {
-	/* add your code here */
+// 	// 1. 예외처리: 빈큐
+// 	if(!q) return;
+
+// 	int n = q->ll.size;              // 큐의 크기 저장
+// 	for (int i = 0; i < n; i++) {    // 큐의 모든 요소 확인
+// 		int item = dequeue(q);       // 
+// 		if (item % 2 == 0) {
+// 			enqueue(q, item);
+// 		}
+// 	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 
 void enqueue(Queue *q, int item) {
-	insertNode(&(q->ll), q->ll.size, item);
+	insertNode(&(q->ll), q->ll.size, item);     // 맨 끝 인덱스에 새 노드 삽입
 }
 
 int dequeue(Queue *q) {

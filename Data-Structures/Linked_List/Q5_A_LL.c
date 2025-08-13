@@ -39,6 +39,7 @@ int removeNode(LinkedList *ll, int index);
 int main()
 {
 	int c, i;
+	c = 1;
 	LinkedList ll;
 	LinkedList resultFrontList, resultBackList;
 
@@ -99,10 +100,37 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
+// Q5. 단일 연결 리스트를 앞(front) 절반과 뒤(back) 절반으로 2개의 리스트로 분리
+// 원소 수 홀수: 앞 리스트가 하나 더 많이 가져가야 함
+// 결과로 만든 frontList / backList 출력
 
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
-	/* add your code here */
+	// 1. 예외 처리
+    if (!ll || !resultFrontList || !resultBackList) return;
+
+    // 2. 결과 리스트 비우기(여러 번 호출 대비, 누수 방지)
+    if (resultFrontList->head != NULL) removeAllItems(resultFrontList);
+    if (resultBackList->head != NULL)  removeAllItems(resultBackList);
+
+    // 3) mid값 구하기
+    int n   = ll->size;
+    int mid = (n + 1) / 2;
+
+    // 4) front: 0~mid-1, back: mid~끝 (노드 "복사"로 생성)
+    ListNode *cur = ll->head;
+    int idx = 0;
+
+    while (cur) {
+        if (idx < mid) {
+            insertNode(resultFrontList, resultFrontList->size, cur->item);
+        } else {
+            insertNode(resultBackList,  resultBackList->size,  cur->item);
+        }
+        cur = cur->next;
+        idx++;
+    }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

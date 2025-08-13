@@ -111,12 +111,22 @@ int main()
     return 0;
 }
 
+// Q. 2개의 이진트리 구조, 노드 같은지 판별(동일-> 1, 다름 -> 0)
+// 둘 다 빈 트리-> 동일
+// 빈 트리X -> 왼쪽, 오른쪽 서브트리 각각 동일 -> 동일
+
+// 구조와 값이 같더라도, 서로 다른 트리면 주소 값이 다름 
+// -> '구조+값 동일성' 판단에 포인터 주소로 비교(X) '재귀적으로 값 비교 + 좌/우 재귀 호출' (O)   
 //////////////////////////////////////////////////////////////////////////////////
 
 int identical(BTNode *tree1, BTNode *tree2)
 
 {
-   /* add your code here */
+   if(!tree1 && !tree2) return 1;       // 1. 둘 다 빈 트리 -> 동일
+   if (!tree1 || !tree2) return 0;      // 2. 한 쪽만 빈 트리 -> 동일X
+   if (tree1->item != tree2->item) return 0;          // 3. 값이 다름 -> 동일X
+
+   return identical(tree1->left, tree2->left) && identical(tree1->right, tree2->right);  // 4. 좌우 서브트리 동일 
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -220,19 +230,21 @@ BTNode* pop(Stack *stk){
    return ptr;
 }
 
+// 중위순회 출력
 void printTree(BTNode *node){
     if(node == NULL) return;
 
-    printTree(node->left);
-    printf("%d ",node->item);
-    printTree(node->right);
+    printTree(node->left);       // 1) 왼쪽 서브트리 모두 방문
+    printf("%d ",node->item);    // 2) 현재 노드 출력
+    printTree(node->right);      // 3) 오른쪽 서브트리 모두 방문
 }
 
+// 후위 순회로 돌면서 모든 노드 free
 void removeAll(BTNode **node){
-    if(*node != NULL){
-        removeAll(&((*node)->left));
-        removeAll(&((*node)->right));
-        free(*node);
-        *node = NULL;
+    if(*node != NULL){   
+        removeAll(&((*node)->left));      // 1) 왼쪽 서브트리부터 모두 해제   
+        removeAll(&((*node)->right));     // 2) 오른쪽 서브트리도 모두 해제
+        free(*node);                      // 3) 자식 정리 후 현재 노드 해제
+        *node = NULL;                     // 4) 호출자 보유 포인터를 NULL로
     }
 }

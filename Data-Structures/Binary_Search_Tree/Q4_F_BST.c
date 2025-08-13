@@ -86,12 +86,42 @@ int main()
 
 	return 0;
 }
+// Q4. (스택 1개) 후위순회 출력(왼->오->루)
 
 //////////////////////////////////////////////////////////////////////////////////
 
 void postOrderIterativeS1(BSTNode *root)
 {
-	 /* add your code here */
+	// 1. 예외 처리: NULL
+	if(!root) return;
+
+    // 2. 스택 초기화 + 비우기
+    Stack s;
+	s.top = NULL;
+	while(!isEmpty(&s)) pop(&s);
+
+   // 3. 현재 노드, 방문체크
+   BSTNode *cur = root;                 // 지금 내려가고 있는 노드(왼쪽으로 계속 진행)
+   BSTNode *lastVisited = NULL;         // 직전에 '방문(출력) 완료'한 노드 저장
+
+   // 4. 후위순회 (왼->오->루)
+   while(cur || !isEmpty(&s)) {
+	if(cur) {
+		push(&s, cur);
+		cur = cur->left;       // (1) 왼쪽 끝까지 스택 쌓기(push)
+
+	}else{
+		BSTNode *top = peek(&s);    // (2) 더 못 내려가면, 스택의 맨 위 확인(아직 방문 전 조상)
+
+		if(top->right && lastVisited != top->right) {                // (3) 오른쪽 서브트리가 '남아 있고' 아직 방문 전이면, 그쪽으로 이동
+			cur = top->right;
+		} else{                                                      //(4) 오른쪽도 없거나 이미 방문했다면, 이제 top(현재 노드) '방문'
+			BSTNode *node = pop(&s);             // 방금 방문 완료                  
+			printf("%d ", node->item); 
+			lastVisited = node;                 // 이 노드를 '방문 완료'로 표시
+		}
+	}
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

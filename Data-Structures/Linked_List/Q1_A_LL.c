@@ -12,13 +12,13 @@ Purpose: Implementing the required functions for Question 1 */
 //////////////////////////////////////////////////////////////////////////////////
 
 typedef struct _listnode{
-	int item;
-	struct _listnode *next;
+	int item;                     // 데이터
+	struct _listnode *next;       // 다음 노드 주소
 } ListNode;			// You should not change the definition of ListNode
 
 typedef struct _linkedlist{
-	int size;
-	ListNode *head;
+	int size;                 // 크기
+	ListNode *head;           // 첫 노드 주소
 } LinkedList;			// You should not change the definition of LinkedList
 
 
@@ -38,11 +38,11 @@ int removeNode(LinkedList *ll, int index);
 
 int main()
 {
-	LinkedList ll;
+	LinkedList ll;   // 연결 리스트
 	int c, i, j;
 	c = 1;
 
-	//Initialize the linked list 1 as an empty linked list
+	//Initialize the linked list 1 as an empty linked list(연결 리스트 빈 리스트로 초기화)
 	ll.head = NULL;
 	ll.size = 0;
 
@@ -88,10 +88,33 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+//Q1. 사용자로부터 정수를 입력받아 오름차순 정렬된 단일 연결 리스트 삽입
+// 중복값 삽입 X, 연결 리스트는 비어있거나 이미 오름차순 상태라고 가정
+// 삽입 성공 -> 해당 값이 추가된 인덱스 위치 반환, 삽입 실패 -> -1 반환
 int insertSortedLL(LinkedList *ll, int item)
-{
-	int a = 2;
-}
+{ 
+	// 1. 리스트 자체가 없으면 실패
+	if (ll == NULL)
+	return -1;     
+
+	int idx = 0;                   // '삽입 될 인덱스'를 세는 함수 초기화
+	ListNode *cur = ll->head;     // '현재 가리키는 노드' (탐색 포인터0 (탐색 시작: head)
+
+	// 2-1. 삽입될 위치 찾기 (처음으로 item 값 이상인 값이 나오는 위치)
+	while (cur != NULL && cur->item < item) {
+		cur = cur->next;     // 다음 노드로 이동
+		idx++;                 // -> 한 칸 이동했으니 인덱스 +1
+	}
+
+	// 3. 중복 값 삽입 방지: 지금 가리키는 값이 item과 같으면 이미 존재 -> 실패(-1)
+	if (cur != NULL && cur->item == item) 
+		return -1;
+	
+	//4. 삽입할 노드 생성
+	if (insertNode(ll, idx, item) == 0) return idx;
+	return -1;
+
+	}
 
 ///////////////////////////////////////////////////////////////////////////////////
 

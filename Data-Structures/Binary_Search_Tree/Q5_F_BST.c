@@ -87,11 +87,40 @@ int main()
 	return 0;
 }
 
+// Q5. (스택 2개) 후위순회 출력(왼->오->루)
+
 //////////////////////////////////////////////////////////////////////////////////
 
 void postOrderIterativeS2(BSTNode *root)
 {
-	 /* add your code here */
+	// 1. 예외 처리: NULL
+	if(!root) return;
+
+    // 2. 스택 초기화 + 비우기
+    Stack s1, s2;
+	s1.top = NULL; s2.top = NULL;
+	while(!isEmpty(&s1)) pop(&s1);
+	while(!isEmpty(&s2)) pop(&s2);
+
+	// 3. s1에 루트부터 시작
+	push(&s1, root);
+
+	// 4. s1에서 꺼내 s2로 옮기고, 자식들을 s1에 쌓기
+	while(!isEmpty(&s1)) {
+		BSTNode *cur = pop(&s1);
+		push(&s2, cur);
+		
+		// ★ 왼쪽을 먼저, 그 다음 오른쪽을 s1에 push
+        //    -> s1은 LIFO라 '오른쪽을 먼저 처리'하게 되고, s2에는 루트-오른-왼 순으로 쌓임
+	    if (cur->left) push(&s1, cur->left);    
+		if (cur->right) push(&s1, cur->right);
+	}
+
+	// 5. s2에서 모두 꺼내며 출력(루트-오른-왼의 역순 => 왼-오른-루트 = 후위순회)
+	while(!isEmpty(&s2)) {
+		BSTNode *cur = pop(&s2);
+		printf("%d ", cur->item);
+	}
 }
 
 /* Given a binary search tree and a key, this function

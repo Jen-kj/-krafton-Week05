@@ -110,11 +110,27 @@ int main()
 
 
 //////////////////////////////////////////////////////////////////////////////////
+// Q2. 연결리스트(ll)의 값을 앞에서부터 차례대로 push하여 스택(stack)을 생성
+// 시작할 때 stack이 비어있지 않으면 먼저 비움(초기화)
 
 void createStackFromLinkedList(LinkedList *ll, Stack *s)
 {
-    /* add your code here */
+	// 1. 예외처리: 빈리스트 or 빈큐
+	if(!ll || !s) return;
+
+	// 2. 스택 초기화: 시작 전 스택 비우기
+	removeAllItemsFromStack(s);
+	
+	//3. 시작 노드: head
+	ListNode *cur = ll->head;
+    
+	// 4. 원본 리스트 순회 시작
+	while(cur != NULL){
+		push(s, cur->item);     //cur->item(현재 노드 값)을 맨 앞에 붙임
+		cur = cur->next;
 }
+}
+
 
 void removeEvenValues(Stack *s)
 {
@@ -125,7 +141,7 @@ void removeEvenValues(Stack *s)
 
 void push(Stack *s, int item)
 {
-	insertNode(&(s->ll), 0, item);
+	insertNode(&(s->ll), 0, item);     // 인덱스 0(=head)에 삽입
 }
 
 int pop(Stack *s)

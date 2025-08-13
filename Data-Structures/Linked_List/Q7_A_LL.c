@@ -83,11 +83,31 @@ int main()
 	return 0;
 }
 
-////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////
+// Q7. 재귀로 순서 역순 만들기
+// 각 노드의 next 포인터들을 거꾸로 만들고, 마지막에 head 포인터도 새 맨앞을 가리키게 바꾸기.
+// 이중 포인터인 이유: 뒤집은 뒤 호출자 쪽 head 변수 자체를 바꿔야 하기 때문. (함수 안에서 *ptrHead = 새헤드로 갱신)
+// 예) (1 → 2 → 3 → 4 → 5) → (5 → 4 → 3 → 2 → 1)
 
 void RecursiveReverse(ListNode **ptrHead)
 {
-	/* add your code here */
+	// 1. 예외처리: 빈리스트 or 빈포인트 or 1개 노드 -> 종료
+	if(!ptrHead || !*ptrHead || !(*ptrHead)->next) return;
+	
+	// 2. first, rest 분리
+	ListNode *first = *ptrHead;      // 현재 서브리스트의 첫 노드
+	ListNode *rest = first->next;   // 그 뒤쪽 나머지 (두 번째부터 끝까지)
+
+	// 3. rest 부분 재귀
+	RecursiveReverse(&rest);
+
+	//4. 링크 재배선
+	first->next->next = first;  // (원래 두 번째였던 노드)->next = first
+	first->next = NULL;         // first는 이제 꼬리이므로 next = NULL
+
+	//5. 헤드 갱신
+	*ptrHead = rest;   
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////

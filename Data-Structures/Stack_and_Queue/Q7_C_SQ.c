@@ -85,9 +85,9 @@ int main()
 			break;
         case 2:
             if(balanced(str))
-                printf("not balanced!\n");
+                printf("not balanced!\n");     // True(1) -> not balanced
             else
-                printf("balanced!\n");
+                printf("balanced!\n");         //False(0) -> balabced
 			break;
 		case 0:
 			break;
@@ -101,10 +101,53 @@ int main()
 	return 0;
 }
 
+
+// Q7. 열린 괄호가 올바른 순서로 닫히는지 확인
+// True: 0, False: 1 (위 main 코드 참고 )
+
+// 예) (), ([]), {[]()[]} → 균형 O
+// 예) [(]), ((), ())] → 균형 X
+
 ////////////////////////////////////////////////////////////
 int balanced(char *expression)
 {
-/* add your code here */
+	if (!expression) return 1;
+
+	Stack st;
+	st.ll.head = NULL;
+	st.ll.size = 0;
+
+	for(int i=0; expression[i] != '\0'; i++){
+		char c = expression[i];
+
+		if(c== '(' || c == '[' || c == '{'){
+			push(&st, c);
+		}
+
+		else if(c== ')' || c == ']' || c == '}'){
+			if(isEmptyStack(&st)){
+				removeAllItemsFromStack(&st);
+			    return 1;
+			}
+
+
+			int t = peek(&st);
+
+			if((c == ')' && t != '(') ||
+			    (c == ']' && t != '[') ||
+				(c == '}' && t != '{') ){
+				removeAllItemsFromStack(&st);
+				return 1;
+			}
+
+			pop(&st);
+		}
+	}
+	
+	int rt = isEmptyStack(&st);
+	removeAllItemsFromStack(&st);
+	return rt ? 0 : 1;
+
 }
 
 ////////////////////////////////////////////////////////////

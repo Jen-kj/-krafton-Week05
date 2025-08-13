@@ -97,13 +97,21 @@ int main()
     }
     return 0;
 }
-
+// Q4. 모든 홀수 노드 값의 합
 //////////////////////////////////////////////////////////////////////////////////
 
 int sumOfOddNodes(BTNode *node)
 
 {
-    /* add your code here */
+    if(!node) return 0;     // 1) NULL -> O
+    
+    int leftsum = sumOfOddNodes(node->left);    // 2) 왼쪽 서브트리 홀수 합
+    int rightsum = sumOfOddNodes(node->right);  // 3) 오른쪽 서브트리 홀수 합 
+
+    int me = (node->item % 2 != 0) ? node->item : 0;     // 4) 지금 내가 홀수: 현재 값, 짝수: 0
+    return leftsum + rightsum + me;                      // 5) 최종 합 = 왼쪽 합 + 오른쪽 합 + (내가 홀수면 내 값)
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////

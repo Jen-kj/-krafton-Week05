@@ -101,11 +101,24 @@ int main()
     return 0;
 }
 
+// Q6. Vale보다 보다 작은 값 모두 출력
+// (25, 30, 65, 50, 10, 60, 75), 55 -> (50, 30, 25, 10)
+
 //////////////////////////////////////////////////////////////////////////////////
 
 void printSmallerValues(BTNode *node, int m)
 {
-	/* add your code here */
+    // 1) 예외 처리: NULL
+    if(!node) return;
+
+    // 2) 현재노드의 값(node->item)이 m보다 작으면 출력 -> 루트
+    if(node->item < m) 
+       printf("%d ", node->item);
+
+    // 3) 왼/오 자식 노드 탐색
+    printSmallerValues(node->left, m);
+    printSmallerValues(node->right, m);
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////

@@ -99,10 +99,21 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
+// Q8. 증손자가 있는 노드 출력(자식의 자식의 자식) -> 3
 int hasGreatGrandchild(BTNode *node)
 {
-	/* add your code here */
+    if(!node) return -1;
+
+    int lh = hasGreatGrandchild(node->left);
+    int rh = hasGreatGrandchild(node->right);
+
+    int h = (lh > rh ? lh : rh) +1;
+
+    if(h >= 3) 
+        printf("%d ", node->item);        
+    
+
+    return h;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

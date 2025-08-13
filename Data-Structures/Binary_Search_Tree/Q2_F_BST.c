@@ -86,11 +86,36 @@ int main()
 	return 0;
 }
 
+// Q2.  (스택 사용) 중위순회 출력(왼 -> 루트 -> 오)
 //////////////////////////////////////////////////////////////////////////////////
 
 void inOrderTraversal(BSTNode *root)
 {
-	 /* add your code here */
+	// 1. 예외 처리: NULL
+	if(!root) return;
+
+    // 2. 스택 초기화 + 비우기
+    Stack s;
+	s.top = NULL;
+	while(!isEmpty(&s)) pop(&s);
+
+	// 3. 현재 포인터
+	BSTNode *cur = root;
+
+	// 4. 스택으로 중위순회(왼->루트->오)
+	while(cur || !isEmpty(&s)) {
+		
+		// (1) 왼쪽 끝까지 내려가며 push
+		while(cur) {
+			push(&s, cur);
+			cur = cur->left;
+		}
+
+		cur = pop(&s);                    // (2) 하나 꺼내 방문
+		printf("%d ", cur->item);         // (3) 출력
+		
+		cur = cur -> right;               // (4) 오른쪽 서브트리로 이동
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////

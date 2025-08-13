@@ -102,10 +102,20 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
+// Q5. 미러모드로 트리 생성(새 트리 생성X)
 
 void mirrorTree(BTNode *node)
 {
-	/* add your code here */
+	if(!node) return;   // 1) NULL -> 끝
+
+    // 2) 왼, 오 변경
+    BTNode *tmp = node->left;   // 왼쪽 값 tmp에 저장
+    node->left = node->right;  // left값을 right값으로 변경
+    node->right = tmp;        // right값 left값으로 변경
+
+    // 3) 왼, 오 자식 노드도 적용 
+    mirrorTree(node->left);
+    mirrorTree(node->right);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

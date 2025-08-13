@@ -96,12 +96,22 @@ int main()
     return 0;
 }
 
+// Q3. 자식 노드가 1개인 노드 개수 출력 
 //////////////////////////////////////////////////////////////////////////////////
 
 int countOneChildNodes(BTNode *node)
 
 {
-    /* add your code here */
+    if(!node) return 0;                             // 1) 자식X
+
+    int lc = countOneChildNodes(node->left);       // 2) 왼쪽 자식 개수
+    int rc = countOneChildNodes(node->right);      // 3) 오른쪽 자식 개수
+
+    if((node->left && !node->right) || (!node->left && node->right))          // 4) 자식이 1개면
+       return lc + rc + 1;                                     // +1
+    else
+        return lc + rc;                                       // 5) 자식 1개 x => 0
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

@@ -87,18 +87,39 @@ int main()
 	return 0;
 }
 
+// Q3. (스택 사용) 전위순회 출력 (루트->왼-> 오)
+
 //////////////////////////////////////////////////////////////////////////////////
 
 void preOrderIterative(BSTNode *root)
 {
-	 /* add your code here */
+	// 1. 예외 처리: NULL
+	if(!root) return;
+
+    // 2. 스택 초기화 + 비우기
+    Stack s;
+	s.top = NULL;
+	while(!isEmpty(&s)) pop(&s);
+
+	// 3. 루트 출력
+	push(&s, root);
+
+	// 4. 스택으로 전위순회(루트->왼->오)
+	while(!isEmpty(&s)) {
+
+		BSTNode *cur = pop(&s);
+		printf("%d ", cur->item);
+		
+	    if (cur->right) push(&s, cur->right);    
+		if (cur->left) push(&s, cur->left);
+		}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void insertBSTNode(BSTNode **node, int value){
 	if (*node == NULL)
-	{
+	{//
 		*node = malloc(sizeof(BSTNode));
 
 		if (*node != NULL) {

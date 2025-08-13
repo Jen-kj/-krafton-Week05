@@ -108,11 +108,23 @@ int main()
 }
 
 ////////////////////////////////////////////////////////////
-
+// Q6. 처음으로 Value가 나타날 때가지 stack에서 pop함
+// (1, 2, 3, 4, 5, 6, 7),value=4 → (4, 5, 6, 7)
 void removeUntil(Stack *s, int value)
 {
-/* add your code here */
+	if(!s || isEmptyStack) return;
+
+	while(!isEmptyStack(s)){
+		int x = pop(s);
+		
+		if (x == value){
+			push(s, x);
+			break;
+
+	}
 }
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////
 

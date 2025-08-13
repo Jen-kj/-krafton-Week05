@@ -99,10 +99,30 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
+// Q7. 가장 작은 값 출력
+// (25, 30, 65, 50, 10, 60, 75) -> 10
 int smallestValue(BTNode *node)
 {
-	/* add your code here */
+    // 1) 예외 처리: NULL
+	if(!node) return 0;
+
+    // 2) 초기 최소값: 현재 노드 값
+    int min = node->item;
+
+    // 3) 왼쪽 서브트리 검사
+    if(node->left){
+        int l = smallestValue(node->left);
+        if( l < min ) min = l;
+    }
+    
+    // 4) 오른쪽 서브트리 검사
+    if(node->right) {
+        int r = smallestValue(node->right);
+        if( r < min ) min = r;
+    }
+    
+    // 5) 최종 최소값 반환
+    return min;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
